@@ -1,0 +1,147 @@
+<div class="task-list-page">
+    <app-note-input (addTodo)="addTodo($event)"></app-note-input>
+
+    <div class="task-search">
+        <input
+            class="task-search__input"
+            type="text"
+            placeholder="Search tasks..."
+            [ngModel]="searchTerm"
+            (ngModelChange)="onSearch($event)"
+        />
+    </div>
+
+    <div class="task-filters">
+        <button
+            type="button"
+            class="task-filters__button"
+            [class.task-filters__button_active]="filter === 'all'"
+            (click)="setFilter('all')"
+        >
+            All
+        </button>
+
+        <button
+            type="button"
+            class="task-filters__button"
+            [class.task-filters__button_active]="filter === 'active'"
+            (click)="setFilter('active')"
+        >
+            Active
+        </button>
+
+        <button
+            type="button"
+            class="task-filters__button"
+            [class.task-filters__button_active]="filter === 'completed'"
+            (click)="setFilter('completed')"
+        >
+            Completed
+        </button>
+    </div>
+
+    @if (!filteredTodos.length) {
+        <app-no-pages></app-no-pages>
+    } @else {
+        <div class="task-list" cdkDropList (cdkDropListDropped)="drop($event)">
+            @for (todo of paginatedTodos; track todo.id) {
+                <div class="task-item" cdkDrag>
+                    <input
+                        class="task-item__checkbox"
+                        type="checkbox"
+                        [checked]="todo.completed"
+                        (change)="toggleTodo(todo.id)"
+                    />
+
+                    @if (editingTodoId === todo.id) {
+                        <input
+                            class="task-item__edit-input"
+                            type="text"
+                            [(ngModel)]="editingTodoValue"
+                            (keydown.enter)="saveEdit(todo)"
+                            (blur)="saveEdit(todo)"
+                        />
+                    } @else {
+                        <span
+                            class="task-item__title"
+                            [class.task-item__title_completed]="todo.completed"
+                        >
+                            {{ todo.todo }}
+                        </span>
+                    }
+
+                    <div class="task-item__actions">
+                        <button
+                            tuiIconButton
+                            type="button"
+                            appearance="flat"
+                            size="s"
+                            iconStart="@tui.pencil"
+                            aria-label="Edit task"
+                            (click)="startEdit(todo)"
+                        ></button>
+
+                        <button
+                            tuiIconButton
+                            type="button"
+                            appearance="flat"
+                            size="s"
+                            iconStart="@tui.trash-2"
+                            aria-label="Delete task"
+                            (click)="deleteTodo(todo.id)"
+                        ></button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="task-footer">
+            <div class="task-footer__count">
+                {{ activeTodosCount }} tasks left
+            </div>
+
+            @if (hasCompletedTodos) {
+                <button
+                    type="button"
+                    class="task-footer__clear"
+                    (click)="clearCompleted()"
+                >
+                    Clear completed
+                </button>
+            }
+        </div>
+
+        @if (totalPages > 1) {
+            <div class="pagination">
+                <button
+                    type="button"
+                    class="pagination__button"
+                    (click)="prevPage()"
+                    [disabled]="currentPage === 1"
+                >
+                    Prev
+                </button>
+
+                @for (page of pages; track page) {
+                    <button
+                        type="button"
+                        class="pagination__button"
+                        [class.pagination__button_active]="currentPage === page"
+                        (click)="goToPage(page)"
+                    >
+                        {{ page }}
+                    </button>
+                }
+
+                <button
+                    type="button"
+                    class="pagination__button"
+                    (click)="nextPage()"
+                    [disabled]="currentPage === totalPages"
+                >
+                    Next
+                </button>
+            </div>
+        }
+    }
+</div>

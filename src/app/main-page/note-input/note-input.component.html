@@ -1,0 +1,31 @@
+<form class="note-input" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="note-input__control">
+        <div class="note-input__field">
+            <tui-textfield>
+                <input
+                    tuiInput
+                    type="text"
+                    formControlName="todo"
+                    placeholder="Type your task here"
+                />
+            </tui-textfield>
+        </div>
+
+        @if (form.controls.todo.touched && form.controls.todo.invalid) {
+            <div class="note-input__error">
+                @if (form.controls.todo.errors?.['required']) {
+                    <span>Введите задачу</span>
+                }
+
+                @if (form.controls.todo.errors?.['minlength']) {
+                    <span>Минимум 2 символа</span>
+                }
+            </div>
+        }
+    </div>
+
+    <button class="note-input__button" tuiButton type="submit">
+        <tui-icon icon="@tui.plus"></tui-icon>
+        Add
+    </button>
+</form>

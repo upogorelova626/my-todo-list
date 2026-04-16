@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --sidebar-bg: #0f172a;
+    --main-bg: #020817;
+    --header-bg: #041532;
+    --surface: #162033;
+    --surface-hover: #1d2a44;
+    --border: #25324a;
+    --text-main: #e5eefc;
+    --text-secondary: #8ea0bf;
+    --input-bg: #162033;
+    --button-bg: #4f6edb;
+    --button-text: #ffffff;
+
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body.light-theme {
+    --sidebar-bg: #dbe4f0;
+    --main-bg: #f8fafc;
+    --header-bg: #e2e8f0;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --border: #cbd5e1;
+    --text-main: #0f172a;
+    --text-secondary: #475569;
+    --input-bg: #ffffff;
+    --button-bg: #4f6edb;
+    --button-text: #ffffff;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    user-select: none;
+}
+
+input,
+textarea {
+    user-select: text;
+}
+
+button,
+img {
+    user-select: none;
+}
