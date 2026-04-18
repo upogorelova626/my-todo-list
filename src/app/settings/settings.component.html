@@ -1,0 +1,70 @@
+<div class="settings-page">
+    <h2 class="settings-page__title">Profile settings</h2>
+
+    <form class="settings-form" [formGroup]="form" (ngSubmit)="saveProfile()">
+        <div class="settings-field">
+            <label class="settings-field__label" for="name">Name</label>
+
+            <tui-textfield>
+                <input
+                    id="name"
+                    tuiInput
+                    type="text"
+                    formControlName="name"
+                    placeholder="Enter your name"
+                />
+            </tui-textfield>
+
+            @if (form.controls.name.touched && form.controls.name.invalid) {
+                <div class="settings-field__error">
+                    @if (form.controls.name.errors?.['required']) {
+                        <span>Введите имя</span>
+                    }
+
+                    @if (form.controls.name.errors?.['minlength']) {
+                        <span>Минимум 2 символа</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="settings-field">
+            <label class="settings-field__label" for="email">Email</label>
+
+            <tui-textfield>
+                <input
+                    id="email"
+                    tuiInput
+                    type="email"
+                    formControlName="email"
+                    placeholder="Enter your email"
+                />
+            </tui-textfield>
+
+            @if (form.controls.email.touched && form.controls.email.invalid) {
+                <div class="settings-field__error">
+                    @if (form.controls.email.errors?.['required']) {
+                        <span>Введите email</span>
+                    }
+
+                    @if (form.controls.email.errors?.['email']) {
+                        <span>Неверный формат email</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="settings-actions">
+            <button tuiButton type="submit">Save</button>
+
+            <button
+                tuiButton
+                type="button"
+                appearance="secondary"
+                (click)="resetProfile()"
+            >
+                Reset
+            </button>
+        </div>
+    </form>
+</div>

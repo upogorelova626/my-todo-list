@@ -1,22 +1,36 @@
 <div class="sidebar">
-    <tui-icon icon="@tui.text-align-justify" class="text-icon" />
+    <tui-icon icon="@tui.text-align-justify" class="text-icon"></tui-icon>
+
     <div class="about-me">
-        <img src="avatar.png" alt="" />
+        <img
+            [src]="profileService.profile().avatar || 'avatar.png'"
+            alt="Avatar"
+        />
         <div class="info-about-me">
-            <div>Jane Doe</div>
-            <div>janedoegmail.com</div>
+            <div>{{ profileService.profile().name }}</div>
+            <div>{{ profileService.profile().email }}</div>
         </div>
     </div>
-    <div>
-        <div class="btn-navigation">
-            <button tuiButton class="btn">
-                <tui-icon icon="@tui.list-todo" />
-                <div>My Tasks</div>
-            </button>
-            <button tuiButton class="btn">
-                <tui-icon icon="@tui.settings" />
-                <div>Settings</div>
-            </button>
-        </div>
+
+    <div class="btn-navigation">
+        <button
+            tuiButton
+            class="btn"
+            [class.btn_active]="currentPage === 'tasks'"
+            (click)="openTasks()"
+        >
+            <tui-icon icon="@tui.list-todo"></tui-icon>
+            <div>My Tasks</div>
+        </button>
+
+        <button
+            tuiButton
+            class="btn"
+            [class.btn_active]="currentPage === 'settings'"
+            (click)="openSettings()"
+        >
+            <tui-icon icon="@tui.settings"></tui-icon>
+            <div>Settings</div>
+        </button>
     </div>
 </div>

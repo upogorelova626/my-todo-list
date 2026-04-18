@@ -1,8 +1,16 @@
 <div class="main-page">
-    <app-sidebar></app-sidebar>
+    <app-sidebar
+        [currentPage]="currentPage"
+        (pageChange)="setPage($event)"
+    ></app-sidebar>
 
     <div class="main-content">
         <app-header></app-header>
-        <app-task-list></app-task-list>
+
+        @if (currentPage === 'tasks') {
+            <app-task-list></app-task-list>
+        } @else {
+            <app-settings></app-settings>
+        }
     </div>
 </div>
