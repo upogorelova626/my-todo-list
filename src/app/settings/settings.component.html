@@ -1,6 +1,32 @@
 <div class="settings-page">
     <h2 class="settings-page__title">Profile settings</h2>
 
+    <div
+        class="avatar-dropzone"
+        [class.avatar-dropzone_active]="isDragOver"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+    >
+        <img
+            class="avatar-dropzone__preview"
+            [src]="profileService.profile().avatar || 'avatar.png'"
+            alt="Avatar preview"
+        />
+
+        <div class="avatar-dropzone__text"> Drag and drop avatar here </div>
+
+        <label class="avatar-dropzone__label">
+            <input
+                type="file"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                hidden
+            />
+            <span>Choose file</span>
+        </label>
+    </div>
+
     <form class="settings-form" [formGroup]="form" (ngSubmit)="saveProfile()">
         <div class="settings-field">
             <label class="settings-field__label" for="name">Name</label>

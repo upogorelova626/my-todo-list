@@ -5,7 +5,6 @@ import {
     TuiInputDirective,
     TuiTextfieldComponent
 } from '@taiga-ui/core';
-
 import {ProfileService} from '../profile.service';
 
 @Component({
@@ -22,7 +21,9 @@ import {ProfileService} from '../profile.service';
 })
 export class SettingsComponent implements OnInit {
     private readonly formBuilder = inject(FormBuilder);
-    private readonly profileService = inject(ProfileService);
+    readonly profileService = inject(ProfileService);
+
+    isDragOver = false;
 
     readonly form = this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(2)]],
@@ -63,5 +64,60 @@ export class SettingsComponent implements OnInit {
             name: profile.name,
             email: profile.email
         });
+    }
+
+    onDragOver(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = true;
+    }
+
+    onDragLeave(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = false;
+    }
+
+    onDrop(event: DragEvent): void {
+        event.preventDefault();
+        this.isDragOver = false;
+
+        const file = event.dataTransfer?.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        this.handleAvatarFile(file);
+    }
+
+    onFileSelected(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        const file = input.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        this.handleAvatarFile(file);
+        input.value = '';
+    }
+
+    private handleAvatarFile(file: File): void {
+        if (!file.type.startsWith('image/')) {
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const avatar = reader.result as string;
+            const currentProfile = this.profileService.getProfile();
+
+            this.profileService.saveProfile({
+                ...currentProfile,
+                avatar
+            });
+        };
+
+        reader.readAsDataURL(file);
     }
 }

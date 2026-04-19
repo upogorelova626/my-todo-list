@@ -12,6 +12,44 @@
     color: var(--text-main);
 }
 
+.avatar-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    transition: 0.2s ease;
+}
+
+.avatar-dropzone_active {
+    border-color: var(--text-main);
+    background: var(--surface-hover);
+}
+
+.avatar-dropzone__preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-dropzone__text {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.avatar-dropzone__label {
+    cursor: pointer;
+    color: var(--text-main);
+    font-size: 14px;
+    text-decoration: underline;
+}
+
 .settings-form {
     display: flex;
     flex-direction: column;
